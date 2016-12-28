@@ -1,25 +1,9 @@
 (function($) {
-  var cfg = {};
-
-  jQuery.fn.extend({
-    /**
-     * Turns on scrollability indicator that showas "scroll down for more" indicator.
-     * @param opts
-     * @returns {jQuery}
-     */
-    referee: function(opts) {
-      opts = opts || {};
-
-      $(this).each(function() {
-        var $this = $(this);
-
-        $this.maxMinIndicator = new MaxMinIndicator($.extend({ el: $this }, opts));
-      });
-      return this;
-    }
-  });
-
-  var MaxMinIndicator = MaxMinIndicator = function(opts) {
+  /**
+   * Main class file for the max/min indicators
+   * @param {Object} opts Accepts initialization options. Requires opts.el to be set which is the input element.
+   */
+  var RefereeJs = RefereeJs = function(opts) {
     var self = this;
     var max, min;
 
@@ -31,6 +15,9 @@
     opts.minIndicatorTemplate = opts.minIndicatorTemplate || "{{charRemain}} too few characters (min: {{min}})";
     opts.charsLeftTemplate = opts.charsLeftTemplate || "{{charRemain}} characters left";
 
+  /**
+   * Constructor to initalize the referee
+   */
     var init = function() {
       bindElements();
       loadVariables();
@@ -38,6 +25,9 @@
       updateMsg();
     };
 
+    /**
+     * Finds, binds and generates indicator elements.
+     */
     var bindElements = function() {
       // Create the template and save it locally.
       self.$indicator = $('<span class="input-referee"><div class="indicator-content"></div></span>');
@@ -50,6 +40,10 @@
       }
     };
 
+    /**
+     * Load variables and values specified from the input element itself (included data- attributes)
+     * @return {[type]} [description]
+     */
     var loadVariables = function() {
       // Load minimum
       var attrMin = self.$el.attr('ng-minLength') || self.$el.data('min-length') || self.$el.data('referee-min-length');
@@ -73,6 +67,9 @@
       opts.charsLeftThreshold = self.$el.data('referee-chars-left-threshold') || opts.charsLeftThreshold;
     };
 
+    /**
+     * Update the indicator messaging based on the input values
+     */
     var updateMsg = function() {
       var currentLen = currentFieldLength();
 
@@ -89,33 +86,55 @@
       }
     };
     
+    /**
+     * Returns the current input element field length.
+     * @return {Integer}
+     */
     var currentFieldLength = function() {
       return self.$el.val().length;
     }
 
+    /**
+     * Shows the "input too short" message with the configured template.
+     * @param  {Integer} currentLen Current input field length
+     */
     var showTooShortMsg = function(currentLen) {
       var charRemain = min - currentLen;
-      showTemplateMsg(opts.minIndicatorTemplate, charRemain);
+      showMsg(processTemplate(opts.minIndicatorTemplate, charRemain));
       self.$indicator.removeClass('too-long').removeClass('chars-left').addClass('too-short');
     };
 
+    /**
+     * Shows the "input too long" message with the configured template.
+     * @param  {Integer} currentLen Current input field length
+     */
     var showTooLongMsg = function(currentLen) {
       var charRemain = currentLen - max;
-      showTemplateMsg(opts.maxIndicatorTemplate, charRemain);
+      showMsg(processTemplate(opts.maxIndicatorTemplate, charRemain));
       self.$indicator.removeClass('too-short').removeClass('chars-left').addClass('too-long');
     };
     
+    /**
+     * Shows the "__ characters left" message with the configured template.
+     * @param  {Integer} currentLen Current input field length
+     */
     var showCharsLeft = function(currentLen) {
       var charRemain = max - currentLen;
       if (opts.charsLeftThreshold >= charRemain && charRemain >= 0) {
-        showTemplateMsg(opts.charsLeftTemplate, charRemain);
+        showMsg(processTemplate(opts.charsLeftTemplate, charRemain));
         self.$indicator.removeClass('too-long').removeClass('too-short').addClass('chars-left');
       } else {
         hideMsg();
       }
     };
 
-    var showTemplateMsg = function(template, charRemain) {
+    /**
+     * Takes the template and injects in variable values where template variables exist.
+     * @param  {String} template    Template to inject variables into
+     * @param  {Integer} charRemain Number of characters remaining in the input before reaching the limit for the given template.
+     * @return {String}             Template message with variables injected into it.
+     */
+    var processTemplate = function(template, charRemain) {
       var msg = template
                     .replace('{{min}}', min)
                     .replace('{{max}}', max)
@@ -123,14 +142,24 @@
                     .replace('{{charRemain}}', charRemain)
                     .replace('{{charLeft}}', charRemain)
                     .replace('{{s}}', charRemain == 1 ? '': 's');
-      showMsg(msg);
+
+      return msg;
     };
 
+
+    /**
+     * Hide the indicator message and remove any state dependent classes.
+     * @return {[type]} [description]
+     */
     var hideMsg = function() {
       self.$indicator.removeClass('too-short').removeClass('chars-left').removeClass('too-long');
       self.$indicator.hide();
     };
 
+    /**
+     * Show an indicator message.
+     * @param  {String} html Text or HTML to put in the indicator content element.
+     */
     var showMsg = function(html) {
       // Update the message.
       self.$indicatorContent.html(html);
@@ -141,6 +170,11 @@
       repositionIndicator();
     };
 
+    /**
+     * Reposition the indicator to the input element based on configured settings and the current window.
+     * Uses absolute positioning.
+     * @return {[type]} [description]
+     */
     var repositionIndicator = function() {
       // Read in values from the field and indicator
       var fieldWidth = self.$el.outerWidth();
@@ -164,6 +198,9 @@
 
     };
 
+    /**
+     * Bind to the input element change events and window resize events so that we can position the indicator properly.
+     */
     var bindEvents = function() {
       self.$el.on('change keyup unfocus', function() {
         updateMsg();
@@ -176,8 +213,31 @@
 
     init();
   };
+  // End RefereeJs Class //
 
 
+  // Attach the $('input').referee() method:
+  jQuery.fn.extend({
+    /**
+     * Initializes the referee JS to any matched inputs.
+     * @param opts
+     * @returns {jQuery}
+     */
+    referee: function(opts) {
+      opts = opts || {};
+
+      $(this).each(function() {
+        var $this = $(this);
+
+        if (!$this.is('input')) return; // Skip non-input elements.
+
+        $this.refereeJs = new RefereeJs($.extend({ el: $this }, opts));
+      });
+      return this;
+    }
+  });
+
+  // When the document is ready let's search for inputs and automatically attach to them.
   $(document).ready(function() {
     $('input[data-referee]').referee();
   })
