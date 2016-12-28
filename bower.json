@@ -1,0 +1,26 @@
+{
+  "name": "refereejs",
+  "version": "0.0.1",
+  "homepage": "https://jayelkaake.github.io/refereejs/",
+  "description": "Max/min input indicators for inputs using jQuery.",
+  "main": "js/refereejs.js",
+  "keywords": [
+    "js",
+    "jquery",
+    "refereejs",
+    "input-validation",
+    "input-warnings",
+    "input-max-indicators"
+  ],
+  "authors": [
+    "Jay El-Kaake"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
