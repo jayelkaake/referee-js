@@ -1,0 +1,27 @@
+.input-referee {
+  position: absolute;
+  font-size: 10px;
+  color: red;
+  text-align: right;
+  width: 0;
+}
+
+.input-referee .indicator-content {
+  width: 190px;
+  padding: 4px;
+}
+
+.input-referee.chars-left {
+  color: orange;
+}
+.input-referee.too-long {
+  /* Placeholder - You can add custom classes for when the over limit indicator shows. */
+}
+.input-referee.too-short {
+  /* Placeholder - You can add custom classes for when the under limit indicator shows. */
+}
+
+
+.input-referee .indicator-content.pad-number {
+  padding-right: 30px;
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Referee JS - Input Length Min/Max Indicators</title>
+  
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="css/refereejs.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Referee JS - Input Length Min/Max Indicators</h1>
+    <p>
+      The input max/min length indicator uses javascript to display a warning message on top of
+      an input field when the user has not yet entered the minimum or maximum character 
+      restrictions specified.
+    </p>
+    
+    <h2>Examples</h2>
+    
+    <h4>Show minimum and maximum length warnings</h4>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email Address</label>
+      <p>In this example the field will warn against any input less than 4 or greater than 40:</p>
+      <input type="email" data-referee="true" value="abc"
+             data-referee-display-on-init="true"
+             data-min-length="4" data-max-length="40" class="form-control" 
+             placeholder="Enter email between 4-40 characters.">
+      <em>Code:</em><code>
+        &lt;input type="email" data-referee="true" 
+             data-referee-display-on-init="true"
+             data-min-length="4" data-max-length="40" class="form-control" 
+             placeholder="Enter email between 4-40 characters."&gt;
+      </code>
+    </div>
+    
+    <h4>Customize the Remaining Characters Template</h4>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <p>In this example the field will warn against any input less than 8 characters with a custom template.</p>
+      <input type="password" class="form-control" value="abc"
+             data-referee="true" data-min-length="8"
+             data-referee-display-on-init="true"
+             data-referee-min-template="{{charRemain}} more character{{s}} for a good password"
+             placeholder="Enter password more than 8 characters.">
+      <em>Code:</em>
+      <code>
+        &lt;input type="password" class="form-control" 
+             data-referee="true" data-min-length="8"
+             data-referee-display-on-init="true"
+             data-referee-min-template="{{charRemain}} more character{{s}} for a good password"
+             placeholder="Enter password more than 8 characters."&gt;
+       </code>
+    </div>
+    
+    <h4>Show Characters Left With Maximum</h4>
+    <div class="form-group">
+      <label for="exampleCompanyName">Company Name</label>
+      <p>In this example the field will warn you once you are getting close to the maximum number of characters.</p>
+      <input type="text" class="form-control" 
+             data-referee="true" 
+             data-max-length="20"
+             data-referee-chars-left-threshold="5"
+             data-referee-display-on-init="true"
+             value="Some Company Name"
+             placeholder="Enter Company Name (Max 20 Characters)">
+      <em>Code:</em><br>
+      <code>
+        &lt;input type="text" class="form-control" <Br>
+        &nbsp;&nbsp;&nbsp;&nbsp;placeholder="Enter Company Name (Max 20 Characters)" <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-referee="true" <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-max-length="20" <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-referee-chars-left-threshold="5"<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-referee-display-on-init="true"&gt;
+       </code>
+    </div>
+    
+    
+    <h2>Usage</h2>
+    <p>To use the indicator simply add the <code>data-referee</code> attribute to your 
+      input element, then specify a <code>data-min-length="123"</code> attribute to warn against 
+      min/max lengths.
+    </p>
+    <p>That simple! The JS will attach events on page load.</p>
+    <h3>Dynamically Generated Content</h3>
+    <p>If you're dynamically generating content using JS (ie Angular) then you will need to run <code>$('#id_of_your_input').referee();</code>.
+    
+    <h2>Installation</h2>
+    <p>
+      To install simply include the input-min-max-indicator.js file in your project.
+    </p>
+    <p>
+      To install with bower simply run this from your console:
+      <br>
+      <code>bower install input-min-max-indicator --save</code>.
+    </p>
+    
+    <h2>Customization</h2>
+      
+    <h4>Data Attributes</h4>
+    <table>
+      <tr>
+        <th>data-referee</th>
+        <td>
+          Enables the min/max indicator on an input element. <strong>Note:</strong> Until you set this attribute the indicator won't run.
+          <br><strong>Default:</strong> undefined (false)
+        </td>
+      </tr>
+      <tr>
+        <th>data-min-length</th>
+        <td>
+          Indicate what the minimum length is. If left blank then no minimum warning will be shown.
+          <br><strong>Default:</strong> undefined
+        </td>
+      </tr>
+      <tr>
+        <th>data-max-length</th>
+        <td>
+          Indicate what the maximum length is. If left blank then no maximum warning will be shown.
+          <br><strong>Default:</strong> undefined
+        </td>
+      </tr>
+      <tr>
+        <th>data-referee-min-template</th>
+        <td>
+          What template to use when when displaying the minimum length warning.
+          <br><strong>Default:</strong> <code>{{charRemain}} too few characters (min: {{min}})</code>.
+        </td>
+      </tr>
+      <tr>
+        <th>data-referee-max-template</th>
+        <td>
+          What template to use when when displaying the maximum length warning.
+          <br><strong>Default:</strong> <code>too many characters ({{currLength}}/{{max}})</code>.
+        </td>
+      </tr>
+      <tr>
+        <th>data-referee-chars-left-threshold</th>
+        <td>
+          How many characters before the maximum to show the characters left warning. If not specified then no warning will be shown.
+          <strong>Default:</strong> undefined
+        </td>
+      </tr>
+      <tr>
+        <th>data-referee-chars-left-template</th>
+        <td>
+          What template to use when when displaying the characters left warning.
+          <br><strong>Default:</strong>: <code>({{charRemain}} character{{s}} left</code>.
+        </td>
+      </tr>
+      <tr>
+        <th>data-referee-display-on-init</th>
+        <td>If set to "true" will show warning messages on initialization. That is, if a value is already in the field then it will show a message when the page loads or the indicator is initialized. Otherwise it will wait for user input before showing any messages. <strong>Default:</strong> false</td>
+      </tr>
+    </table>
+    
+    <h3>Customizing Templates</h3>
+    <p>You can customize the displayed templates easily by setting the template options. Here are the variables that you can use in your templates:</p>
+    <ul>
+      <li><code>{{max}}</code> - Maximum characters allowed as configured.</li>
+      <li><code>{{min}}</code> - Minimum characters allowed as configured.</li>
+      <li><code>{{charRemain}}</code> - Characters remaining to hit minimum or maximum (depending on the template).</li>
+      <li><code>{{currLength}}</code> - Current string length of input entry.</li>
+      <li><code>{{s}}</code> - Gets replaced with an empty string ('') if {{charRemain}} == 1 and replaced with 's' otherwise. This is useful for displaying pluralized strings in your template. For example <code>You have {{charRemain}} letter{{s}} over limit</code>) would display "1 letter left" when the user is 1 character over the character limit.</li>
+    </ul>
+    
+    <h3>Customizing Styles</h3>
+    <p>See the included CSS. It's pretty simple to customize the css styles by defining your own CSS classes.</p>
+
+  </div>
+
+  
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
+
+  <script src="js/refereejs.js"></script>
+
+</body>
+</html>
