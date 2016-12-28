@@ -10,14 +10,50 @@
 
 <body>
   <div class="container">
-    <h1>Referee JS - Input Length Min/Max Indicators</h1>
-    <p>
-      The input max/min length indicator uses javascript to display a warning message on top of
-      an input field when the user has not yet entered the minimum or maximum character 
-      restrictions specified.
-    </p>
+
+    <div class="masthead">
+
+      <ul class="nav nav-justified">
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#customization">Customization</a></li>
+        <li><a href="#contribution">Contribution</a></li>
+        <li><a href="https://github.com/jayelkaake/refereejs">Github Repo</a></li>
+      </ul>
+    </div>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+      <h1 id="intro"><em>Referee JS</em></h1>
+      <p class="lead">Add simple maximum and minimum input length indicators to your fields in a few seconds.</p>
+      <p>
+        The input max/min length indicator uses javascript to display a warning message on top of
+        an input field when the user has not yet entered the minimum or maximum character 
+        restrictions specified.
+      </p>
+      <p>
+
+        <span class="social-buttons inline-block">
+          <a href="https://twitter.com/share" class="twitter-share-button" 
+            data-url="https://jayelkaake.github.io/refereejs/" 
+            data-text="Referee JS, simple input max/min indicators. #refereejs" 
+            data-via="jayelkaake" 
+            data-related="jayelkaake" 
+            data-hashtags="refereejs">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+          <iframe src="http://ghbtns.com/github-btn.html?user=jayelkaake&repo=refereejs&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+
+          <iframe src="http://ghbtns.com/github-btn.html?user=jayelkaake&repo=refereejs&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+        </span>
+      </p>
+    </div>
+
+
     
-    <h2>Examples</h2>
+    <h2 id="examples">Examples</h2>
     
     <h4>Show minimum and maximum length warnings</h4>
     <div class="form-group">
@@ -76,8 +112,18 @@
        </code>
     </div>
     
+    <h2 id="installation">Installation</h2>
+    <p>
+      To install simply include the js/refereejs.js and css/refereejs.css files in your project.
+    </p>
+    <p>
+      To install with bower simply run this from your console:
+      <br>
+      <code>bower install input-min-max-indicator --save</code>. Then include the js/refereejs.js and css/refereejs.css files in your project.
+    </p>
+
     
-    <h2>Usage</h2>
+    <h2 id="usage">Usage</h2>
     <p>To use the indicator simply add the <code>data-referee</code> attribute to your 
       input element, then specify a <code>data-min-length="123"</code> attribute to warn against 
       min/max lengths.
@@ -86,19 +132,10 @@
     <h3>Dynamically Generated Content</h3>
     <p>If you're dynamically generating content using JS (ie Angular) then you will need to run <code>$('#id_of_your_input').referee();</code>.
     
-    <h2>Installation</h2>
-    <p>
-      To install simply include the input-min-max-indicator.js file in your project.
-    </p>
-    <p>
-      To install with bower simply run this from your console:
-      <br>
-      <code>bower install input-min-max-indicator --save</code>.
-    </p>
     
-    <h2>Customization</h2>
+    <h2 id="customization">Customization</h2>
       
-    <h4>Data Attributes</h4>
+    <h3>Data Attributes</h3>
     <table>
       <tr>
         <th>data-referee</th>
@@ -168,6 +205,12 @@
     <h3>Customizing Styles</h3>
     <p>See the included CSS. It's pretty simple to customize the css styles by defining your own CSS classes.</p>
 
+
+    <h2 id="contribution">Contribution</h2>
+    <p>If you'd like to contribute to the repo that's great! Simply fork the repo and open up a pull request against it. </p>
+    <p>
+      <iframe src="http://ghbtns.com/github-btn.html?user=jayelkaake&repo=refereejs&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+    </p>
   </div>
 
   
