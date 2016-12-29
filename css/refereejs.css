@@ -16,8 +16,9 @@
   padding: 4px;
 }
 
+/* These css classes depend on the indicator being displayed: */
 .input-referee.chars-left {
-  color: orange;
+  color: #ff690a;
 }
 .input-referee.too-long {
   /* Placeholder - You can add custom classes for when the over limit indicator shows. */
@@ -25,7 +26,6 @@
 .input-referee.too-short {
   /* Placeholder - You can add custom classes for when the under limit indicator shows. */
 }
-
 
 .input-referee .indicator-content.pad-number {
   padding-right: 30px;
