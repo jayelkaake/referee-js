@@ -1,3 +1,7 @@
+/**
+ * @repository https://jayelkaake.github.io/refereejs/
+ * @author Jay El-Kaake <najibkaake@gmail.com>
+ */
 (function($) {
   /**
    * Main class file for the max/min indicators
@@ -164,8 +168,10 @@
       // Update the message.
       self.$indicatorContent.html(html);
 
-      // Now show it.
-      self.$indicator.show();
+        // Now show it.
+      if (!self.$indicator.is(':visible')) {
+        self.$indicator.fadeIn();
+      }
 
       repositionIndicator();
     };
