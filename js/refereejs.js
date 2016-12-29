@@ -17,7 +17,8 @@
     opts.displayPosition = opts.displayPosition === undefined ? 'topRight' : opts.displayPosition;
     opts.maxIndicatorTemplate = opts.maxIndicatorTemplate || "too many characters ({{currLength}}/{{max}})";
     opts.minIndicatorTemplate = opts.minIndicatorTemplate || "{{charRemain}} too few characters (min: {{min}})";
-    opts.charsLeftTemplate = opts.charsLeftTemplate || "{{charRemain}} characters left";
+    opts.charsLeftTemplate = opts.charsLeftTemplate || "{{charRemain}} character{{s}} left";
+    opts.alwaysShowCount = opts.alwaysShowCount || false;
 
   /**
    * Constructor to initalize the referee
@@ -69,6 +70,8 @@
       opts.minIndicatorTemplate = self.$el.data('referee-min-template') || opts.minIndicatorTemplate;
       opts.charsLeftTemplate = self.$el.data('referee-chars-left-template') || opts.charsLeftTemplate;
       opts.charsLeftThreshold = self.$el.data('referee-chars-left-threshold') || opts.charsLeftThreshold;
+      opts.alwaysShowCount = self.$el.data('referee-always-show-count') ? self.$el.data('referee-always-show-count') != 'false' : opts.alwaysShowCount;
+      opts.warningThreshold = self.$el.data('referee-warning-threshold') || opts.warningThreshold || (max ? max/4 : undefined);
     };
 
     /**
@@ -79,6 +82,8 @@
 
       if (currentLen == 0 && opts.hideWhenEmpty) {
         hideMsg();
+      } else if (opts.alwaysShowCount) {
+        showCharCount(currentLen);
       } else if (min != undefined && currentLen < min) {
         showTooShortMsg(currentLen);
       } else if (max != undefined && currentLen > max) {
@@ -105,7 +110,11 @@
     var showTooShortMsg = function(currentLen) {
       var charRemain = min - currentLen;
       showMsg(processTemplate(opts.minIndicatorTemplate, charRemain));
-      self.$indicator.removeClass('too-long').removeClass('chars-left').addClass('too-short');
+
+      // Apply proper class and remove unneeded ones
+      if (!self.$indicator.hasClass('too-short')) self.$indicator.addClass('too-short');
+      if (self.$indicator.hasClass('too-long')) self.$indicator.removeClass('too-long');
+      if (self.$indicator.hasClass('chars-left')) self.$indicator.removeClass('chars-left');
     };
 
     /**
@@ -115,7 +124,11 @@
     var showTooLongMsg = function(currentLen) {
       var charRemain = currentLen - max;
       showMsg(processTemplate(opts.maxIndicatorTemplate, charRemain));
-      self.$indicator.removeClass('too-short').removeClass('chars-left').addClass('too-long');
+
+      // Apply proper class and remove unneeded ones
+      if (!self.$indicator.hasClass('too-long')) self.$indicator.addClass('too-long');
+      if (self.$indicator.hasClass('too-short')) self.$indicator.removeClass('too-short');
+      if (self.$indicator.hasClass('chars-left')) self.$indicator.removeClass('chars-left');
     };
     
     /**
@@ -124,11 +137,46 @@
      */
     var showCharsLeft = function(currentLen) {
       var charRemain = max - currentLen;
+
       if (opts.charsLeftThreshold >= charRemain && charRemain >= 0) {
         showMsg(processTemplate(opts.charsLeftTemplate, charRemain));
-        self.$indicator.removeClass('too-long').removeClass('too-short').addClass('chars-left');
+        self.$indicator.removeClass('too-long too-short').addClass('chars-left warning-threshold');
+
+        // Apply proper class and remove unneeded ones
+        if (!self.$indicator.hasClass('chars-left')) self.$indicator.addClass('chars-left');
+        if (!self.$indicator.hasClass('warning-threshold')) self.$indicator.addClass('warning-threshold');
+        if (self.$indicator.hasClass('too-long')) self.$indicator.removeClass('too-long');
+        if (self.$indicator.hasClass('too-short')) self.$indicator.removeClass('too-short');
       } else {
         hideMsg();
+      }
+    };
+
+    /**
+     * Show the permanent "x characters left" view.
+     * @param  {Integer} currentLen Current input field length
+     */
+    var showCharCount = function(currentLen) {
+      var charRemain = max - currentLen;
+
+      showMsg(processTemplate(opts.charsLeftTemplate, charRemain));
+
+      self.$indicator.removeClass('too-long too-short').addClass('chars-left');
+
+      if (opts.warningThreshold && charRemain < opts.warningThreshold) {
+        if (!self.$indicator.hasClass('warning-threshold')) {
+          self.$indicator.addClass('warning-threshold');
+        }
+        if (charRemain < 0 && !self.$indicator.hasClass('too-long')) {
+          self.$indicator.addClass('too-long');
+        }
+      } else {
+        if (self.$indicator.hasClass('warning-threshold')) {
+          self.$indicator.removeClass('warning-threshold');
+        }
+        if (self.$indicator.hasClass('too-long')) {
+          self.$indicator.removeClass('too-long');
+        }
       }
     };
 
@@ -156,7 +204,9 @@
      * @return {[type]} [description]
      */
     var hideMsg = function() {
-      self.$indicator.removeClass('too-short').removeClass('chars-left').removeClass('too-long');
+      if (self.$indicator.hasClass('too-short')) self.$indicator.removeClass('too-short');
+      if (self.$indicator.hasClass('too-long')) self.$indicator.removeClass('too-long');
+      if (self.$indicator.hasClass('chars-left')) self.$indicator.removeClass('chars-left');
       self.$indicator.hide();
     };
 

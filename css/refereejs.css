@@ -6,7 +6,6 @@
 .input-referee {
   position: absolute;
   font-size: 10px;
-  color: red;
   text-align: right;
   width: 0;
 }
@@ -18,13 +17,18 @@
 
 /* These css classes depend on the indicator being displayed: */
 .input-referee.chars-left {
+  color: #adadad;
+}
+/* These css classes depend on the indicator being displayed: */
+.input-referee.warning-threshold {
   color: #ff690a;
 }
+
 .input-referee.too-long {
-  /* Placeholder - You can add custom classes for when the over limit indicator shows. */
+  color: red;
 }
 .input-referee.too-short {
-  /* Placeholder - You can add custom classes for when the under limit indicator shows. */
+  color: red;
 }
 
 .input-referee .indicator-content.pad-number {

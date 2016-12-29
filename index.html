@@ -57,7 +57,6 @@
     
     <h4>Show minimum and maximum length warnings</h4>
     <div class="form-group">
-      <label for="exampleInputEmail1">Email Address</label>
       <p>In this example the field will warn against any input less than 4 or greater than 40:</p>
       <input type="email" data-referee="true" value="abc"
              data-referee-display-on-init="true"
@@ -73,7 +72,6 @@
     
     <h4>Customize the Remaining Characters Template</h4>
     <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
       <p>In this example the field will warn against any input less than 8 characters with a custom template.</p>
       <input type="password" class="form-control" value="abc"
              data-referee="true" data-min-length="8"
@@ -92,7 +90,6 @@
     
     <h4>Show Characters Left With Maximum</h4>
     <div class="form-group">
-      <label for="exampleCompanyName">Company Name</label>
       <p>In this example the field will warn you once you are getting close to the maximum number of characters.</p>
       <input type="text" class="form-control" 
              data-referee="true" 
@@ -111,7 +108,34 @@
         &nbsp;&nbsp;&nbsp;&nbsp;data-referee-display-on-init="true"&gt;
        </code>
     </div>
+
+    <h4>Only Show Characters Left (Twitter Style)</h4>
+    <div class="form-group">
+      <p>You can use the <code>data-referee-always-show-count</code> attribute to always show the character count. This overrides other settings.</p>
+      <input type="text" class="form-control" 
+             data-referee="true" 
+             data-max-length="40"
+             data-referee-always-show-count="true"
+             data-referee-warning-threshold="20"
+             data-referee-display-on-init="true"
+             value="Some Company Name That Is Really Long"
+             placeholder="Enter Company Name (Max 40 Characters)">
+      <em>Code:</em><br>
+      <code>
+        &lt;input type="text" class="form-control" <Br>
+        &nbsp;&nbsp;&nbsp;&nbsp;placeholder="Enter Company Name (Max 20 Characters)" <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-referee="true" <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-max-length="40" <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-referee-always-show-count="true" <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-referee-warning-threshold="20" <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;data-referee-display-on-init="true"&gt;
+       </code>
+    </div>
     
+    
+
+
+
     <h2 id="installation">Installation</h2>
     <p>
       To install simply include the dist/refereejs.js and dist/refereejs.css files in your project.
@@ -194,7 +218,25 @@
       </tr>
       <tr>
         <th>data-referee-display-on-init</th>
-        <td>If set to "true" will show warning messages on initialization. That is, if a value is already in the field then it will show a message when the page loads or the indicator is initialized. Otherwise it will wait for user input before showing any messages. <strong>Default:</strong> false</td>
+        <td>If set to "true" will show warning messages on initialization. That is, if a value is already in the field then 
+        it will show a message when the page loads or the indicator is initialized. Otherwise it will wait for user input 
+        before showing any messages. <strong>Default:</strong> false</td>
+      </tr>
+      <tr>
+        <th>data-referee-always-show-count</th>
+        <td>
+          If enabled then this will always show the number of characters left on the top right of the input. 
+          Also see <code>data-referee-warning-threshold</code> to set a color change threshold.
+          <br><strong>Default:</strong> false</td>
+        </td>
+      </tr>
+      <tr>
+        <th>data-referee-warning-threshold</th>
+        <td>
+          When the # characters left hits this number the <code>warning-threshold</code> class will be added which by default
+          shows a different (orange) color than the standard grey character count color.
+          <br><strong>Default:</strong> 25% of max length</td>
+        </td>
       </tr>
     </table>
     
